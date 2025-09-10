@@ -5,6 +5,10 @@
 
 ## Implementasi Checklist
 
+Proyek ini dibuat pada branch **main** 
+
+Link Tugas : https://dimas-abyan-bolabelishop.pbp.cs.ui.ac.id
+
 Aku mengerjakan proyek ini dengan beberapa langkah:
 
 1. **Membuat Proyek & Aplikasi**
