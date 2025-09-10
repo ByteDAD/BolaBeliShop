@@ -120,10 +120,10 @@ Di dalam views.py, logika aplikasi dijalankan. Jika data dibutuhkan, views.py ak
 Hasil render dari template kemudian dikembalikan lagi ke Django, diteruskan ke server, dan akhirnya dikirim kembali ke klien sebagai sebuah halaman web utuh.
 
 **Kesimpulan:**
-- urls.py bertugas mengarahkan request ke view yang sesuai.
-- views.py menjadi jembatan utama yang mengatur logika antara models (data) dan template (tampilan).
-- models.py fokus pada manajemen data.
-- templates bertugas menampilkan data dalam bentuk HTML yang bisa dipahami pengguna.
+- `urls.py` bertugas mengarahkan request ke view yang sesuai.
+- `views.py` menjadi jembatan utama yang mengatur logika antara models (data) dan template (tampilan).
+- `models.py` fokus pada manajemen data.
+- `templates` bertugas menampilkan data dalam bentuk HTML yang bisa dipahami pengguna.
 Dengan alur ini, Django memisahkan peran tiap komponen dengan jelas, sehingga aplikasi lebih terstruktur dan mudah dikembangkan.
 
 
