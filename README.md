@@ -5,7 +5,7 @@
 
 ## Implementasi Checklist
 
-Proyek ini dibuat pada branch **main** 
+Proyek ini dibuat pada branch **master**. **main** hanya sebagai README
 
 Link Tugas : https://dimas-abyan-bolabelishop.pbp.cs.ui.ac.id
 
