@@ -20,6 +20,15 @@ class Product(models.Model):
     # Atribut tambahan opsional
     stock = models.PositiveIntegerField(default=0)  # stok barang
     brand = models.CharField(max_length=100, blank=True, null=True)  # merk barang
+    
+    # Field untuk created date dan views
+    created_at = models.DateTimeField(auto_now_add=True)  # tanggal dibuat
+    product_views = models.PositiveIntegerField(default=0)  # jumlah views
 
     def __str__(self):
         return f"{self.name} ({self.category})"
+    
+    def increment_views(self):
+        """Method untuk menambah view count"""
+        self.product_views += 1
+        self.save()
