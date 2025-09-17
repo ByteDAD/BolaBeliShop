@@ -172,6 +172,8 @@ Aku memilih Django karena:
 
 Menurutku asdos membantu banget, penjelasan singkat tapi jelas. Masalah kecil saja seperti kurangnya koma tetap dibantu dengan baik dan tanpa merendahkan mahasiswa yang kesulitan.
 
+---
+
 # Tugas 3 PBP
 
 ### 1. Mengapa kita memerlukan data delivery dalam pengimplementasian sebuah platform?
