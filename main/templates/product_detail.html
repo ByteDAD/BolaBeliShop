@@ -21,4 +21,10 @@
 
 <p><b>Stock:</b> {{ product.stock }} items</p>
 
+{% if product.user %}
+    <p>Author: {{ product.user.username }}</p>
+{% else %}
+    <p>Author: Anonymous</p>
+{% endif %}
+
 {% endblock content %}
