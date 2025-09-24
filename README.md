@@ -469,6 +469,8 @@ Screenshot URL di postman.
 
   ![Alt Text](https://github.com/ByteDAD/BolaBeliShop/blob/main/Json_Pic_ID.jpeg?raw=true)
 
+--- 
+
 # Tugas 4 PBP
 
 ### Apa itu Django AuthenticationForm? Jelaskan juga kelebihan dan kekurangannya.
