@@ -697,6 +697,7 @@ Dengan implementasi ini, user dapat melihat semua produk atau hanya produk yang 
 # Tugas 5 PBP
 
 ### Jika terdapat beberapa CSS selector untuk suatu elemen HTML, jelaskan urutan prioritas pengambilan CSS selector tersebut!
+---
 
 
 Urutan prioritas CSS selector mengikuti konsep **specificity** (kekhususan), dimana semakin spesifik suatu selector, semakin tinggi prioritasnya. Berikut adalah urutan prioritas dari yang tertinggi ke terendah:
@@ -755,6 +756,7 @@ div { color: red; }
 - `!important` dapat mengoverride semua aturan specificity, tapi sebaiknya dihindari karena membuat CSS sulit di-maintain
 
 ### Mengapa responsive design menjadi konsep yang penting dalam pengembangan aplikasi web? Berikan contoh aplikasi yang sudah dan belum menerapkan responsive design, serta jelaskan mengapa!
+---
 
 Responsive design adalah konsep penting dalam pengembangan web modern karena beberapa alasan krusial:
 
@@ -809,6 +811,7 @@ Responsive design adalah konsep penting dalam pengembangan web modern karena beb
 
 
 ### Jelaskan perbedaan antara margin, border, dan padding, serta cara untuk mengimplementasikan ketiga hal tersebut!
+---
 
 
 Margin, border, dan padding adalah tiga komponen dalam **CSS Box Model** yang mengatur spacing dan layout elemen HTML. Perbedaannya:
@@ -928,6 +931,7 @@ Margin, border, dan padding adalah tiga komponen dalam **CSS Box Model** yang me
 
 
 ### Jelaskan konsep flex box dan grid layout beserta kegunaannya!
+---
 
 **Flexbox (Flexible Box Layout)** dan **Grid Layout** adalah dua sistem layout modern di CSS yang mempermudah pembuatan layout yang complex dan responsive.
 
@@ -1189,7 +1193,7 @@ Dalam praktik, sering kita kombinasikan keduanya:
 ```
 
 ### Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial)!
-
+---
 
 
 ### 1. Implementasi Fungsi Edit dan Delete Product
