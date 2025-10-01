@@ -690,3 +690,982 @@ else:
 ```
 
 Dengan implementasi ini, user dapat melihat semua produk atau hanya produk yang dibuat oleh user tersebut.
+
+--- 
+
+
+# Tugas 5 PBP
+
+### Jika terdapat beberapa CSS selector untuk suatu elemen HTML, jelaskan urutan prioritas pengambilan CSS selector tersebut!
+
+
+Urutan prioritas CSS selector mengikuti konsep **specificity** (kekhususan), dimana semakin spesifik suatu selector, semakin tinggi prioritasnya. Berikut adalah urutan prioritas dari yang tertinggi ke terendah:
+
+1. **Inline styles** - CSS yang ditulis langsung di atribut `style` pada elemen HTML memiliki prioritas tertinggi
+   ```html
+   <div style="color: red;">Text</div>
+   ```
+
+2. **ID selector** - Selector dengan tanda `#` memiliki prioritas tinggi
+   ```css
+   #header { color: blue; }
+   ```
+
+3. **Class, attribute, dan pseudo-class selector** - Selector dengan `.`, `[]`, atau `:` 
+   ```css
+   .nav-item { color: green; }
+   [type="text"] { border: 1px solid; }
+   a:hover { color: purple; }
+   ```
+
+4. **Element dan pseudo-element selector** - Selector berdasarkan tag HTML
+   ```css
+   div { color: black; }
+   p::first-line { font-weight: bold; }
+   ```
+
+5. **Universal selector** - Selector `*` memiliki prioritas paling rendah
+   ```css
+   * { margin: 0; }
+   ```
+
+**Perhitungan Specificity:**
+- Inline style: 1000 points
+- ID selector: 100 points  
+- Class/attribute/pseudo-class: 10 points
+- Element/pseudo-element: 1 point
+
+**Contoh perhitungan:**
+```css
+/* Specificity: 1 (1 element) */
+div { color: red; }
+
+/* Specificity: 10 (1 class) */
+.container { color: blue; }
+
+/* Specificity: 100 (1 ID) */
+#main { color: green; }
+
+/* Specificity: 111 (1 ID + 1 class + 1 element) */
+#main .container div { color: purple; }
+```
+
+**Catatan penting:** 
+- Jika specificity sama, maka aturan yang ditulis terakhir yang akan digunakan
+- `!important` dapat mengoverride semua aturan specificity, tapi sebaiknya dihindari karena membuat CSS sulit di-maintain
+
+### Mengapa responsive design menjadi konsep yang penting dalam pengembangan aplikasi web? Berikan contoh aplikasi yang sudah dan belum menerapkan responsive design, serta jelaskan mengapa!
+
+Responsive design adalah konsep penting dalam pengembangan web modern karena beberapa alasan krusial:
+
+**Alasan Penting Responsive Design:**
+
+- **Diversitas Device** = User mengakses website dari berbagai perangkat dengan ukuran layar yang berbeda dan bervariasi (smartphone 5", tablet 10", laptop 15", desktop 27", dll)
+
+-  **Mobile-First Era** = Lebih dari 60% traffic internet global berasal dari mobile devices, sehingga pengalaman mobile yang buruk akan kehilangan banyak user
+
+
+-  **Cost Efficiency** = Satu codebase yang responsive lebih efisien dibanding maintain website terpisah untuk mobile dan desktop
+
+-  **User Experience** = User expect seamless experience across devices, website yang tidak responsive akan meningkatkan bounce rate dan membuat user tidak tertarik
+
+**Contoh Aplikasi yang Sudah Menerapkan Responsive Design:**
+
+**BolaBelishop (Project ini):**
+- Navbar yang collapse menjadi hamburger menu di mobile
+- Grid layout product cards yang adjust dari 3 columns (desktop) ke 1 column (mobile)
+- Form input yang stretch full-width di mobile
+- Touch friendly button sizes di mobile devices
+
+**YouTube:**
+- Video player yang resize sesuai layar
+- Navigation yang berubah dari sidebar (desktop) ke bottom navigation (mobile)
+- Thumbnail grid yang adaptive
+
+**Twitter/X:**
+- Timeline yang adjust antara multi-column (desktop) dan single column (mobile)
+- Sidebar yang hide di mobile dan muncul sebagai drawer menu
+- Compose tweet button yang float di mobile
+
+**Contoh Aplikasi yang Belum Menerapkan Responsive Design:**
+
+**Website Pemerintah Lama:**
+- Masih banyak website instansi pemerintah yang fixed-width
+- Text terlalu kecil untuk dibaca di mobile
+- Button terlalu kecil untuk di-tap dengan jari
+- Horizontal scrolling yang mengganggu UX
+
+**Old Banking Websites:**
+- Layout yang break di mobile
+- Table data yang overflow dan tidak scrollable
+- Form yang sulit diisi karena tidak ter-optimize untuk mobile keyboard
+
+
+**Mengapa aplikasi lama belum menerapkan:**
+- Dibuat sebelum era mobile dominan
+- Budget terbatas untuk redesign
+- Technical debt yang besar untuk migration (terutama di Indonesia)
+- Kurangnya awareness tentang importance of mobile UX
+
+
+### Jelaskan perbedaan antara margin, border, dan padding, serta cara untuk mengimplementasikan ketiga hal tersebut!
+
+
+Margin, border, dan padding adalah tiga komponen dalam **CSS Box Model** yang mengatur spacing dan layout elemen HTML. Perbedaannya:
+
+**1. Margin (Ruang Luar)**
+- Space di **luar** border elemen
+- Membuat jarak antara elemen dengan elemen lain di sekitarnya
+- Bersifat transparan (tidak memiliki warna background)
+- Dapat memiliki nilai negatif
+- Margin collapse bisa terjadi (vertical margins dapat merge)
+
+**2. Border (Garis Tepi)**
+- Garis yang mengelilingi padding dan content
+- Berada di antara margin dan padding
+- Dapat dikustomisasi (warna, style, thickness)
+- Menambah dimensi total elemen
+
+**3. Padding (Ruang Dalam)**
+- Space di **dalam** border, antara border dan content
+- Membuat jarak antara content dengan border elemen
+- Mengikuti warna background elemen
+- Tidak bisa memiliki nilai negatif
+- Menambah area clickable elemen
+
+**Visualisasi Box Model:**
+```
++------------------------------------------+
+|           Margin (transparan)            |
+|  +------------------------------------+  |
+|  |    Border (colored line)           |  |
+|  |  +------------------------------+  |  |
+|  |  |  Padding (bg-color)          |  |  |
+|  |  |  +------------------------+  |  |  |
+|  |  |  |      Content           |  |  |  |
+|  |  |  +------------------------+  |  |  |
+|  |  +------------------------------+  |  |
+|  +------------------------------------+  |
++------------------------------------------+
+```
+
+**Cara Implementasi:**
+
+**A. Shorthand Property (Semua Sisi Sekaligus):**
+
+```css
+/* Margin */
+.element {
+    margin: 20px;                    /* semua sisi 20px */
+    margin: 10px 20px;               /* vertical 10px, horizontal 20px */
+    margin: 10px 20px 30px;          /* top 10px, horizontal 20px, bottom 30px */
+    margin: 10px 20px 30px 40px;     /* top, right, bottom, left (clockwise) */
+}
+
+/* Border */
+.element {
+    border: 2px solid black;         /* width style color */
+    border: 1px dashed #ccc;
+}
+
+/* Padding */
+.element {
+    padding: 15px;                   /* semua sisi 15px */
+    padding: 10px 20px;              /* vertical 10px, horizontal 20px */
+    padding: 10px 20px 30px 40px;    /* top, right, bottom, left */
+}
+```
+
+**B. Individual Properties:**
+
+```css
+.element {
+    /* Margin per sisi */
+    margin-top: 10px;
+    margin-right: 20px;
+    margin-bottom: 15px;
+    margin-left: 25px;
+    
+    /* Border per sisi dan property */
+    border-top: 2px solid red;
+    border-right-color: blue;
+    border-bottom-style: dashed;
+    border-left-width: 3px;
+    
+    /* Padding per sisi */
+    padding-top: 5px;
+    padding-right: 10px;
+    padding-bottom: 8px;
+    padding-left: 12px;
+}
+```
+
+**C. Contoh Praktis dalam BolaBelishop:**
+
+```css
+/* Card Product */
+.product-card {
+    margin: 20px;              /* jarak antar card */
+    border: 1px solid #e5e7eb; /* garis tepi card */
+    padding: 20px;             /* ruang dalam card */
+    border-radius: 8px;        /* rounded corners */
+}
+
+/* Button */
+.btn-primary {
+    margin: 10px 5px;          /* jarak button dengan elemen lain */
+    border: 2px solid #8b5cf6; /* border ungu */
+    padding: 12px 24px;        /* ruang dalam button */
+}
+
+/* Form Input */
+.form-input {
+    margin-bottom: 16px;       /* jarak antar input field */
+    border: 2px solid #d1d5db; /* border abu-abu */
+    padding: 12px;             /* ruang dalam input */
+}
+```
+
+
+### Jelaskan konsep flex box dan grid layout beserta kegunaannya!
+
+**Flexbox (Flexible Box Layout)** dan **Grid Layout** adalah dua sistem layout modern di CSS yang mempermudah pembuatan layout yang complex dan responsive.
+
+
+
+## 1. Flexbox
+
+**Konsep:**
+Flexbox adalah sistem layout satu dimensi (1D) yang mengatur elemen dalam satu arah, baik horizontal (row) atau vertical (column). Flexbox sangat cocok untuk mengatur komponen dalam satu baris atau satu kolom.
+
+**Karakteristik Flexbox:**
+- One dimensional layout (row atau column)
+- Distribusi space yang fleksibel
+- Alignment yang mudah (center, space-between, dll)
+- Order elemen dapat diubah tanpa mengubah HTML
+
+**Properties Utama:**
+
+**Container Properties:**
+```css
+.flex-container {
+    display: flex;
+    
+    /* Direction */
+    flex-direction: row | column | row-reverse | column-reverse;
+    
+    /* Wrapping */
+    flex-wrap: nowrap | wrap | wrap-reverse;
+    
+    /* Horizontal alignment */
+    justify-content: flex-start | center | flex-end | space-between | space-around;
+    
+    /* Vertical alignment */
+    align-items: stretch | flex-start | center | flex-end | baseline;
+    
+    /* Multiple rows alignment */
+    align-content: flex-start | center | flex-end | space-between | space-around;
+    
+    /* Gap between items */
+    gap: 20px;
+}
+```
+
+**Item Properties:**
+```css
+.flex-item {
+    /* Grow factor */
+    flex-grow: 1;
+    
+    /* Shrink factor */
+    flex-shrink: 1;
+    
+    /* Base size */
+    flex-basis: 200px;
+    
+    /* Shorthand */
+    flex: 1 1 200px; /* grow shrink basis */
+    
+    /* Individual alignment */
+    align-self: auto | flex-start | center | flex-end | stretch;
+    
+    /* Order */
+    order: 2;
+}
+```
+
+**Penggunaan Cases Flexbox:**
+1. Navbar dengan menu items yang distribute evenly
+2. Card layout dalam satu row yang responsive
+3. Centering content vertical dan horizontal
+4. Button groups dengan equal width
+5. Form layouts dengan label dan input alignment
+
+**Contoh Implementasi di BolaBelishop:**
+
+```css
+/* Navbar dengan Flexbox */
+.navbar {
+    display: flex;
+    justify-content: space-between;  /* logo kiri, menu kanan */
+    align-items: center;             /* vertical center */
+    padding: 1rem;
+}
+
+/* Filter Buttons */
+.filter-section {
+    display: flex;
+    gap: 12px;                       /* jarak antar button */
+    flex-wrap: wrap;                 /* wrap ke baris baru jika sempit */
+}
+
+/* Card Footer dengan Flexbox */
+.card-footer {
+    display: flex;
+    justify-content: space-between;  /* "Read more" kiri, "Edit/Delete" kanan */
+    align-items: center;
+    padding-top: 16px;
+    border-top: 1px solid #e5e7eb;
+}
+```
+
+
+
+## 2. Grid Layout
+
+**Konsep:**
+Grid adalah sistem layout dua dimensi (2D) yang mengatur elemen dalam rows dan columns sekaligus. Grid sangat powerful untuk membuat layout halaman yang complex.
+
+**Karakteristik Grid:**
+- Two-dimensional layout (rows dan columns)
+- Precise placement control
+- Complex layouts dengan code yang simple
+- Responsive grid dengan media queries
+
+**Properties Utama:**
+
+**Container Properties:**
+```css
+.grid-container {
+    display: grid;
+    
+    /* Define columns */
+    grid-template-columns: 200px 1fr 2fr;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    
+    /* Define rows */
+    grid-template-rows: 100px auto 50px;
+    
+    /* Gap between items */
+    gap: 20px;
+    row-gap: 20px;
+    column-gap: 10px;
+    
+    /* Alignment */
+    justify-items: start | center | end | stretch;
+    align-items: start | center | end | stretch;
+    
+    /* Grid areas (template) */
+    grid-template-areas:
+        "header header header"
+        "sidebar content content"
+        "footer footer footer";
+}
+```
+
+**Item Properties:**
+```css
+.grid-item {
+    /* Span multiple columns/rows */
+    grid-column: 1 / 3;        /* dari line 1 ke line 3 */
+    grid-row: 2 / 4;
+    
+    /* Shorthand */
+    grid-column: span 2;       /* span 2 columns */
+    grid-row: span 3;          /* span 3 rows */
+    
+    /* Named areas */
+    grid-area: header;
+    
+    /* Individual alignment */
+    justify-self: start | center | end | stretch;
+    align-self: start | center | end | stretch;
+}
+```
+
+**Use Cases Grid:**
+1. Page layout (header, sidebar, content, footer)
+2. Photo gallery dengan item sizes yang berbeda
+3. Dashboard dengan widgets
+4. Magazine-style layouts
+5. Product catalog dengan responsive columns
+
+**Contoh Implementasi di BolaBelishop:**
+
+```css
+/* Product Grid - Responsive */
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+    padding: 2rem;
+}
+
+/* Responsive breakpoints */
+@media (min-width: 768px) {
+    .product-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (min-width: 1024px) {
+    .product-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* Dashboard Layout */
+.dashboard {
+    display: grid;
+    grid-template-areas:
+        "header header header"
+        "sidebar main main"
+        "footer footer footer";
+    grid-template-columns: 250px 1fr 1fr;
+    grid-template-rows: auto 1fr auto;
+    min-height: 100vh;
+}
+
+.header { grid-area: header; }
+.sidebar { grid-area: sidebar; }
+.main { grid-area: main; }
+.footer { grid-area: footer; }
+```
+
+---
+
+## Perbandingan Flexbox vs Grid
+
+| Aspek | Flexbox | Grid |
+|-------|---------|------|
+| Dimensi | 1D (row atau column) | 2D (row dan column) |
+| Use Case | Component-level layout | Page-level layout |
+| Control | Content-based sizing | Track-based sizing |
+| Best For | Navigation, cards dalam row | Complete page layouts, galleries |
+| Learning Curve | Lebih mudah | Lebih complex |
+
+**Kapan Menggunakan Apa:**
+- **Flexbox**: Untuk layout komponen kecil, alignment sederhana, distribusi space dalam satu arah
+- **Grid**: Untuk layout halaman utuh, gallery, dashboard, atau layout yang membutuhkan control yang presisi di 2 dimensi
+
+**Kombinasi Flexbox + Grid:**
+Dalam praktik, sering kita kombinasikan keduanya:
+```css
+/* Grid untuk overall layout */
+.page-layout {
+    display: grid;
+    grid-template-columns: 250px 1fr;
+}
+
+/* Flexbox untuk navbar di dalam grid */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+}
+
+/* Grid untuk product cards */
+.product-list {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+}
+
+/* Flexbox untuk content dalam card */
+.product-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+```
+
+### Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step (bukan hanya sekadar mengikuti tutorial)!
+
+
+
+### 1. Implementasi Fungsi Edit dan Delete Product
+
+**Step 1: Membuat Fungsi Edit di `views.py`**
+
+```python
+@login_required(login_url='/login')
+def edit_products(request, id):
+    # Get product by ID, return 404 if not found
+    product = get_object_or_404(Product, pk=id)
+    
+    # Security: Pastikan user hanya bisa edit product miliknya
+    if product.user != request.user:
+        messages.error(request, 'You are not authorized to edit this product.')
+        return redirect('main:show_main')
+    
+    # Create form with existing product data
+    form = ProductForm(request.POST or None, instance=product)
+    
+    if form.is_valid() and request.method == 'POST':
+        form.save()
+        messages.success(request, 'Product updated successfully!')
+        return redirect('main:show_main')
+
+    context = {
+        'form': form,
+        'product': product
+    }
+    return render(request, "edit_products.html", context)
+```
+
+**Step 2: Membuat Fungsi Delete di `views.py`**
+
+```python
+@login_required(login_url='/login')
+def delete_product(request, id):
+    # Get product by ID
+    product = get_object_or_404(Product, pk=id)
+    
+    # Security: Pastikan user hanya bisa delete product miliknya
+    if product.user != request.user:
+        messages.error(request, 'You are not authorized to delete this product.')
+        return redirect('main:show_main')
+    
+    # Delete product
+    product.delete()
+    messages.success(request, 'Product deleted successfully!')
+    
+    return HttpResponseRedirect(reverse('main:show_main'))
+```
+
+**Step 3: Menambahkan URL Routing di `urls.py`**
+
+```python
+urlpatterns = [
+    # existing paths...
+    path('product/<uuid:id>/edit', edit_products, name='edit_products'),
+    path('product/<uuid:id>/delete', delete_product, name='delete_product'),
+]
+```
+
+**Step 4: Menambahkan Button Edit & Delete di `card_product.html`**
+
+```html
+{% if user.is_authenticated and product.user == user %}
+  <div class="flex items-center justify-between pt-4 border-t border-purple-100">
+    <a href="{% url 'main:show_product' product.id %}" class="text-purple-600">
+      Read more
+    </a>
+    <div class="flex space-x-2">
+      <a href="{% url 'main:edit_products' product.id %}" class="text-blue-600">
+        Edit
+      </a>
+      <a href="{% url 'main:delete_product' product.id %}" 
+         onclick="return confirm('Are you sure?')" 
+         class="text-red-600">
+        Delete
+      </a>
+    </div>
+  </div>
+{% endif %}
+```
+
+**Penjelasan:**
+- Menggunakan `get_object_or_404()` untuk handling error jika product tidak ditemukan
+- Authorization check memastikan user hanya bisa edit/delete product miliknya sendiri
+- Confirmation dialog pada delete untuk mencegah accidental deletion
+- Messages untuk user feedback setelah action berhasil
+
+---
+
+### 2. Kustomisasi Desain dengan Tailwind CSS
+
+**Step 1: Setup Tailwind di `base.html`**
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {% block meta %} {% endblock meta %}
+    
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/global.css' %}"/>
+</head>
+<body>
+    {% block content %} {% endblock content %}
+</body>
+</html>
+```
+
+**Step 2: Kustomisasi Login Page**
+
+Menggunakan gradient background dan card-based design:
+
+```html
+<div class="bg-gradient-to-br from-blue-50 to-indigo-50 w-full min-h-screen flex items-center justify-center">
+  <div class="max-w-md w-full">
+    <div class="bg-white rounded-lg border border-gray-200 p-8 shadow-lg">
+      <h1 class="text-2xl font-bold text-gray-900 mb-2">Sign In</h1>
+      <p class="text-gray-600 mb-8">Welcome back to BolaBelishop</p>
+      
+      <!-- Form here -->
+    </div>
+  </div>
+</div>
+```
+
+**Step 3: Customize Register Page**
+
+Similar design dengan login tapi dengan additional fields:
+
+```html
+<div class="bg-gradient-to-br from-blue-50 to-indigo-50 min-h-screen flex items-center justify-center">
+  <div class="max-w-md w-full">
+    <div class="bg-white border border-gray-200 rounded-lg p-8 shadow-lg">
+      <h2 class="text-2xl font-semibold text-gray-900 mb-2">Join Us</h2>
+      <p class="text-gray-500 mb-8">Create your BolaBelishop account</p>
+      
+      <!-- Form here -->
+    </div>
+  </div>
+</div>
+```
+
+**Step 4: Kustomisasi Form Pages (Create & Edit Product)**
+
+```html
+<div class="bg-gradient-to-br from-slate-800 via-purple-900 to-slate-900 min-h-screen">
+  <div class="max-w-3xl mx-auto px-4 py-8">
+    <div class="bg-white rounded-lg border border-gray-200 p-8">
+      <h1 class="text-2xl font-bold text-gray-900 mb-2">Create New Product</h1>
+      <p class="text-gray-600 mb-8">Share your football product</p>
+      
+      <form method="POST" class="space-y-6">
+        {% csrf_token %}
+        <!-- Form fields -->
+        
+        <div class="flex gap-4 pt-6 border-t">
+          <a href="{% url 'main:show_main' %}" 
+             class="px-6 py-3 border rounded-md">Cancel</a>
+          <button type="submit" 
+                  class="flex-1 bg-purple-600 text-white px-6 py-3 rounded-md">
+            Publish Product
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+```
+
+**Step 5: Custom CSS untuk Form Styling di `global.css`**
+
+```css
+.form-style form input, form textarea, form select {
+    width: 100%;
+    padding: 0.5rem;
+    border: 2px solid #bcbcbc;
+    border-radius: 0.375rem;
+}
+
+.form-style form input:focus, form textarea:focus, form select:focus {
+    outline: none;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.form-style input[type="checkbox"]:checked {
+    background-color: #2563eb;
+    border-color: #2563eb;
+}
+```
+
+---
+
+### 3. Kustomisasi Halaman Daftar Product
+
+**Step 1: Responsive Product Grid**
+
+```html
+<div class="bg-gradient-to-br from-slate-800 via-purple-900 to-slate-900 pt-16 min-h-screen">
+  <div class="max-w-7xl mx-auto px-4 py-8">
+    
+    <!-- Header -->
+    <div class="mb-8">
+      <h1 class="text-3xl font-bold text-white mb-2">Latest Football Product</h1>
+      <p class="text-gray-300">Stay updated with the latest football products</p>
+    </div>
+
+    <!-- Filter Section -->
+    <div class="flex justify-between mb-8 bg-gradient-to-r from-purple-50 to-pink-50 rounded-lg border p-4">
+      <div class="flex space-x-3">
+        <a href="?" class="{% if request.GET.filter == 'all' or not request.GET.filter %} bg-purple-600 text-white {% else %} bg-white text-gray-700 border {% endif %} px-4 py-2 rounded-md">
+          All Product
+        </a>
+        <a href="?filter=my" class="{% if request.GET.filter == 'my' %} bg-purple-600 text-white {% else %} bg-white text-gray-700 border {% endif %} px-4 py-2 rounded-md">
+          My Product
+        </a>
+      </div>
+      
+      {% if user.is_authenticated %}
+        <div class="text-sm text-gray-300">
+          Last login: {{ last_login }}
+        </div>
+      {% endif %}
+    </div>
+
+    <!-- Product Grid -->
+    {% if not product_list %}
+      <div class="bg-gradient-to-br from-purple-50 to-pink-50 rounded-lg border p-12 text-center">
+        <div class="w-32 h-32 mx-auto mb-4">
+          <img src="{% static 'image/no-product.gif' %}" alt="No product" class="w-full h-full object-contain">
+        </div>
+        <h3 class="text-lg font-medium text-gray-900 mb-2">No product found</h3>
+        <p class="text-gray-500 mb-6">Be the first to share football product</p>
+        <a href="{% url 'main:create_product' %}" class="inline-flex px-4 py-2 bg-purple-600 text-white rounded-md">
+          Create product
+        </a>
+      </div>
+    {% else %}
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {% for product in product_list %}
+          {% include 'card_product.html' with product=product %}
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+</div>
+```
+
+**Penjelasan:**
+- Dark gradient background 
+- Filter buttons dengan active state styling
+- Conditional rendering untuk empty state dengan animated GIF
+- Responsive grid: 1 column (mobile) → 2 columns (tablet) → 3 columns (desktop)
+
+---
+
+### 4. Desain Card Product 
+
+**File: `card_product.html`**
+
+```html
+{% load static %}
+<article class="bg-gradient-to-br from-purple-50 to-pink-50 rounded-lg border border-purple-100 hover:shadow-xl transition-all duration-300 overflow-hidden">
+  
+  <!-- Thumbnail Section -->
+  <div class="aspect-[16/9] relative overflow-hidden">
+    {% if product.thumbnail %}
+      <img src="{{ product.thumbnail }}" alt="{{ product.name }}" 
+           class="w-full h-full object-cover">
+    {% else %}
+      <div class="w-full h-full bg-gradient-to-br from-green-100 to-green-200 flex items-center justify-center">
+        <svg class="w-20 h-20 text-green-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+        </svg>
+      </div>
+    {% endif %}
+
+    <!-- Category Badge -->
+    <div class="absolute top-3 left-3">
+      <span class="inline-flex items-center px-2.5 py-0.5 rounded-md text-xs font-medium bg-purple-600 text-white shadow-sm">
+        {{ product.get_category_display }}
+      </span>
+    </div>
+
+    <!-- Featured Badge -->
+    {% if product.is_featured %}
+    <div class="absolute top-3 right-3">
+      <span class="inline-flex items-center px-2 py-1 rounded text-xs font-medium bg-yellow-100 text-yellow-800">
+        ⭐ Featured
+      </span>
+    </div>
+    {% endif %}
+  </div>
+
+  <!-- Content Section -->
+  <div class="p-5">
+    <!-- Meta Info -->
+    <div class="flex items-center text-sm text-gray-500 mb-3">
+      <time datetime="{{ product.created_at|date:'c' }}">
+        {{ product.created_at|date:"M j, Y" }}
+      </time>
+      <span class="mx-2">•</span>
+      <span>{{ product.product_views }} views</span>
+    </div>
+
+    <!-- Title -->
+    <h3 class="text-lg font-semibold text-gray-900 mb-3 line-clamp-2">
+      <a href="{% url 'main:show_product' product.id %}" 
+         class="hover:text-purple-600 transition-colors">
+        {{ product.name }}
+      </a>
+    </h3>
+
+    <!-- Description -->
+    <p class="text-gray-600 text-sm line-clamp-3 mb-4">
+      {{ product.description|truncatewords:20 }}
+    </p>
+
+    <!-- Action Buttons -->
+    {% if user.is_authenticated and product.user == user %}
+      <div class="flex items-center justify-between pt-4 border-t border-purple-100">
+        <a href="{% url 'main:show_product' product.id %}" 
+           class="text-purple-600 hover:text-purple-700 font-medium text-sm">
+          Read more
+        </a>
+        <div class="flex space-x-2">
+          <a href="{% url 'main:edit_products' product.id %}" 
+             class="text-blue-600 hover:text-blue-700 text-sm">
+            Edit
+          </a>
+          <a href="{% url 'main:delete_product' product.id %}" 
+             class="text-red-600 hover:text-red-700 text-sm">
+            Delete
+          </a>
+        </div>
+      </div>
+    {% else %}
+      <div class="pt-4 border-t border-purple-100">
+        <a href="{% url 'main:show_product' product.id %}" 
+           class="text-purple-600 hover:text-purple-700 font-medium text-sm">
+          Read more →
+        </a>
+      </div>
+    {% endif %}
+  </div>
+</article>
+```
+
+**Fitur Unik dalam Card:**
+1. **Gradient Background**: Soft purple-pink gradient untuk aesthetic appeal
+2. **Hover Effects**: Shadow yang meningkat saat di-hover
+3. **Aspect Ratio Box**: Thumbnail dengan ratio 16:9 
+4. **Fallback Image**: SVG icon jika tidak ada thumbnail
+5. **Conditional Actions**: Edit/Delete buttons hanya muncul untuk owner
+6. **Smooth Transitions**: Semua hover effects menggunakan transition-colors
+
+---
+
+### 5. Responsive Navigation Bar (Navbar)
+
+**File: `navbar.html`**
+
+```html
+<nav class="fixed top-0 left-0 w-full bg-gradient-to-r from-slate-900 via-purple-900 to-slate-900 border-b border-purple-700 shadow-lg z-50">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="flex items-center justify-between h-16">
+      
+      <!-- Logo -->
+      <div class="flex items-center">
+        <h1 class="text-xl font-semibold text-white">
+          <span class="text-purple-400">Bola</span>Beli<span class="text-purple-400">Shop</span>
+        </h1>
+      </div>
+      
+      <!-- Desktop Navigation -->
+      <div class="hidden md:flex items-center space-x-8">
+        <a href="/" class="text-gray-300 hover:text-purple-400 font-medium transition-colors">
+          Home
+        </a>
+        <a href="{% url 'main:create_product' %}" class="text-gray-300 hover:text-purple-400 font-medium transition-colors">
+          Create Product
+        </a>
+      </div>
+      
+      <!-- Desktop User Section -->
+      <div class="hidden md:flex items-center space-x-6">
+        {% if user.is_authenticated %}
+          <div class="text-right">
+            <div class="text-sm font-medium text-white">{{ name|default:user.username }}</div>
+            <div class="text-xs text-gray-400">{{ npm|default:"Student" }} - {{ class|default:"Class" }}</div>
+          </div>
+          <a href="{% url 'main:logout' %}" class="text-red-400 hover:text-red-300 font-medium transition-colors">
+            Logout
+          </a>
+        {% else %}
+          <a href="{% url 'main:login' %}" class="text-gray-300 hover:text-white font-medium transition-colors">
+            Login
+          </a>
+          <a href="{% url 'main:register' %}" class="bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg font-medium transition-colors shadow-md">
+            Register
+          </a>
+        {% endif %}
+      </div>
+      
+      <!-- Mobile Hamburger Button -->
+      <div class="md:hidden flex items-center">
+        <button class="mobile-menu-button p-2 text-gray-300 hover:text-white transition-colors">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Mobile Menu (Hidden by default) -->
+  <div class="mobile-menu hidden md:hidden bg-slate-900 border-t border-purple-700">
+    <div class="px-6 py-4 space-y-4">
+      <!-- Mobile Navigation Links -->
+      <div class="space-y-1">
+        <a href="/" class="block text-gray-300 hover:text-purple-400 font-medium py-3">
+          Home
+        </a>
+        <a href="{% url 'main:create_product' %}" class="block text-gray-300 hover:text-purple-400 font-medium py-3">
+          Create Product
+        </a>
+      </div>
+      
+      <!-- Mobile User Section -->
+      <div class="border-t border-purple-700 pt-4">
+        {% if user.is_authenticated %}
+          <div class="mb-4">
+            <div class="font-medium text-white">{{ name|default:user.username }}</div>
+            <div class="text-sm text-gray-400">{{ npm|default:"Student" }} - {{ class|default:"Class" }}</div>
+          </div>
+          <a href="{% url 'main:logout' %}" class="block text-red-400 hover:text-red-300 font-medium py-3">
+            Logout
+          </a>
+        {% else %}
+          <div class="space-y-3">
+            <a href="{% url 'main:login' %}" class="block text-gray-300 hover:text-white font-medium py-3">
+              Login
+            </a>
+            <a href="{% url 'main:register' %}" class="block bg-purple-600 hover:bg-purple-700 text-white font-medium py-3 px-4 rounded-lg text-center shadow-md">
+              Register
+            </a>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  
+  <!-- JavaScript for Mobile Menu Toggle -->
+  <script>
+    const btn = document.querySelector("button.mobile-menu-button");
+    const menu = document.querySelector(".mobile-menu");
+  
+    btn.addEventListener("click", () => {
+      menu.classList.toggle("hidden");
+    });
+  </script>
+</nav>
+```
+
+
+**JavaScript Toggle: (Tambahan)**
+- Simple vanilla JavaScript untuk toggle class "hidden"
+- Toggle mobile menu visibility
+
+
