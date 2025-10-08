@@ -1672,4 +1672,73 @@ Similar design dengan login tapi dengan additional fields:
 - Simple vanilla JavaScript untuk toggle class "hidden"
 - Toggle mobile menu visibility
 
+# Tugas 6 PBP - AJAX
+
+## 1. Perbedaan Synchronous vs Asynchronous Request
+
+SYNCHRONOUS:
+- Eksekusi kode berurutan dari atas ke bawah
+- Menghentikan eksekusi sampai response selesai → UI freeze
+- Contoh: function(){return (6 + 7)}
+
+ASYNCHRONOUS:
+- Eksekusi berdasarkan urutan kedatangan hasil
+- Tidak menghentikan eksekusi → UI tetap responsif
+- Contoh: async function dengan await fetch()
+
+## 2. Cara Kerja AJAX di Django
+
+Flow:
+1. User trigger event di UI → panggil fungsi AJAX
+2. AJAX fetch ke endpoint Django
+3. Django view dieksekusi → return JSONResponse/HTTP Response
+4. AJAX memproses response → update DOM secara asinkronus
+5. UI ter-update tanpa reload halaman
+
+Browser → AJAX Routines → Server → Updated XML/JSON Data → Update DOM
+
+## 3. Keuntungan AJAX vs Render Biasa
+
+- UX lebih baik - UI tidak freeze
+- Lebih cepat - hanya kirim/request JSON, bukan full HTML
+- Bandwidth lebih hemat
+- Loading, empty, error state + toast notification
+- User lebih paham kondisi website
+
+## 4. Keamanan AJAX untuk Login/Register
+
+- Payload dikirim lewat HTTPS → terenkripsi
+- Sertakan CSRF token saat kirim payload
+- Gunakan authenticate() untuk login, UserCreationForm untuk register
+- Implementasi rate limit → cegah brute-force attack
+
+## 5. Pengaruh AJAX terhadap User Experience
+
+- UI tidak freeze dan tetap responsif
+- Tidak perlu refresh halaman
+- Toast notification + web state (empty, loading, error) 
+- User experience lebih jelas dan interaktif
+
+## 6. Implementasi Checklist
+
+AJAX Fetch & Display:
+- Buat endpoint show_json dengan JsonResponse
+- Fetch data via JavaScript
+- Render dynamic dengan DOMPurify.sanitize()
+
+Modal Form + AJAX POST:
+- Buat modal.html dengan form
+- Submit via fetch() dengan FormData
+- View: @csrf_exempt + @require_POST + strip_tags()
+- Return HttpResponse(status=201)
+
+Toast Notification:
+- Buat toast.html + toast.js
+- showToast(title, message, type)
+- Auto hide setelah 3 detik
+
+Security:
+- Backend: strip_tags() di views.py dan forms.py
+- Frontend: DOMPurify.sanitize()
+- HTTPS + CSRF + Authentication + Rate Limiting
 
