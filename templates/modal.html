@@ -98,10 +98,57 @@
           modal.classList.add('hidden');
         }, 150); 
     }
-  
+
+    // ======= INI YANG HILANG - FUNCTION AJAX =======
+    async function addProductEntry() {
+      try {
+        const response = await fetch("{% url 'main:add_product_entry_ajax' %}", {
+          method: "POST",
+          body: new FormData(document.querySelector('#productForm')),
+        });
+
+        if (response.ok) {
+          // Reset form
+          document.getElementById("productForm").reset();
+          
+          // Hide modal
+          hideModal();
+          
+          // Show toast notification (jika ada toast function)
+          if (typeof showToast === 'function') {
+            showToast('Product added successfully!', '', 'success');
+          }
+          
+          // Dispatch custom event untuk refresh product list
+          document.dispatchEvent(new CustomEvent('productAdded'));
+        } else {
+          console.error('Failed to add product');
+          if (typeof showToast === 'function') {
+            showToast('Failed to add product', '', 'error');
+          }
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        if (typeof showToast === 'function') {
+          showToast('An error occurred', '', 'error');
+        }
+      }
+      
+      return false;
+    }
+
+    // ======= EVENT LISTENERS =======
+    
+    // Click outside modal to close
     document.getElementById("crudModal").addEventListener("click", function(event) {
       if (event.target === this) {
         hideModal();
       }
+    });
+
+    // Form submit event
+    document.getElementById("productForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      addProductEntry();
     });
   </script>

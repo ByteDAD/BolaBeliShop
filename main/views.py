@@ -184,14 +184,14 @@ def delete_product(request, id):
 @csrf_exempt
 @require_POST
 def add_product_entry_ajax(request):
-    name = strip_tags(request.POST.get("name"))  # strip HTML tags!
+    name = request.POST.get("name")
     price = request.POST.get("price")
-    description = strip_tags(request.POST.get("description"))  # strip HTML tags!
+    description = request.POST.get("description")
     category = request.POST.get("category")
     thumbnail = request.POST.get("thumbnail")
     stock = request.POST.get("stock")
     brand = request.POST.get("brand")
-    is_featured = request.POST.get("is_featured") == 'on'  # checkbox handling
+    is_featured = request.POST.get("is_featured") == 'on'
     user = request.user
 
     new_product = Product(
