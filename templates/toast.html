@@ -1,0 +1,17 @@
+{% load static %}
+<div id="toast-component" class="fixed bottom-8 right-8 z-50 opacity-0 translate-y-16 transition-all duration-500 ease-in-out">
+    <div class="bg-gradient-to-r from-purple-600 to-pink-600 text-white px-6 py-4 rounded-lg shadow-2xl border border-purple-400 flex items-center space-x-3 min-w-[300px]">
+        <span id="toast-icon" class="text-2xl">🎉</span>
+        <div class="flex-1">
+            <h3 id="toast-title" class="font-bold text-sm">Success!</h3>
+            <p id="toast-message" class="text-xs text-purple-100">Operation completed successfully</p>
+        </div>
+        <button onclick="hideToast()" class="text-white hover:text-purple-200 transition-colors">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+        </button>
+    </div>
+</div>
+
+<script src="{% static 'js/toast.js' %}"></script>
