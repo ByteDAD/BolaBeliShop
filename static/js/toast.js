@@ -1,4 +1,4 @@
-function showToast(title, message, type = 'normal', duration = 3000) {
+function showToast(title, message, type = 'normal', duration = 20000) {
     const toastComponent = document.getElementById('toast-component');
     const toastTitle = document.getElementById('toast-title');
     const toastMessage = document.getElementById('toast-message');
